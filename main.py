@@ -8,7 +8,7 @@ import menu
 import import_jobs as ij
 import validate_jobs as validate
 import const
-
+import simulation
 from tkinter import ttk
 from tkinter.filedialog import askopenfile
 
@@ -35,8 +35,8 @@ class GUI(tk.Frame):
         #make top menu frame
         menu.make_top(self,root)
         menu.make_mid(self,root)
+        menu.make_bottom(self,root)
     
-        
     #callback to import jobs from a text file
     def import_jobs(self):
         file = askopenfile(mode ='r', filetypes =[('Text Files', '*.txt')])
@@ -69,6 +69,9 @@ class GUI(tk.Frame):
             self.job_list = validate.validate_input(self,user_input)
         else:
             tk.messagebox.showerror('Error', 'Invalid input. Seperate jobs by comma.')
+
+    def run_sim(self):
+        simulation.fifo(self.job_list,self.page_frame_count)
         
 
 if __name__ == "__main__":
