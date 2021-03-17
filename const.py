@@ -11,6 +11,15 @@ ENTER_JOB  = 'Enter your jobs (seperate by comma): '
 IMPORT_JOB = 'Import Jobs'
 SUBMIT_JOB = 'Submit Jobs'
 
+ADD_PAGE    = 'Add Page Frame'
+REMOVE_PAGE = 'Remove Page Frame'
+
 """COLORS"""
 BLUE = "#bfd7ff"
 GREEN = "#b5ffdc"
+
+"""COORD FOR PAGE FRAMES"""
+START_X = 0.05
+START_Y = 0.37
+
+Y_INC = 0.07

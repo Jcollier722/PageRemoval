@@ -11,16 +11,16 @@ def validate_input(self,user_input):
 
     #user must enter jobs before submitting
     if(len(user_input) <= 0):
-       mb.showerror('Error','Must enter jobs before submission!')
-       return
+       return -1
     
     #user must delimit with comma
     if(',' not in user_input):
-        mb.showerror('Error','You must seperate jobs by comma.')
-        return
+        return -1
 
+    #split input on comma
+    user_input=user_input.split(',')
+
+    return user_input
     
-        
-        
         
     
