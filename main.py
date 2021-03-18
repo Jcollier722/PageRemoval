@@ -7,6 +7,7 @@ import tkinter as tk
 import menu
 import import_jobs as ij
 import validate_jobs as validate
+import show_results as sr
 import const
 import simulation
 from tkinter import ttk
@@ -21,6 +22,8 @@ class GUI(tk.Frame):
         self.job_entry = tk.StringVar()
 
         self.job_list = None
+
+        self.count = 0
 
         #init frame count to 1
         self.page_frame_count = 0
@@ -72,7 +75,17 @@ class GUI(tk.Frame):
 
     def run_sim(self):
         #simulation.fifo(self.job_list,self.page_frame_count)
-        simulation.lru(self.job_list,self.page_frame_count)
+        #simulation.lru(self.job_list,self.page_frame_count)
+        self.new_window()
+
+
+    def new_window(self):
+        self.count = self.count + 1
+        self.window=tk.Toplevel(self)
+        self.window.geometry("825x900")
+        self.window.config(bg='#bfd7ff')
+        self.window.resizable(width=False, height=False)
+  
         
 
 if __name__ == "__main__":

@@ -11,6 +11,12 @@ def fifo(jobs,num_frames):
     """
     frame_list = []
 
+    """
+    A list to be returned to main GUI. This contains the results of the simulation so they can be displayed graphically
+    """
+    return_list=[]
+    
+
     #initialize a list of frame, starting out with no jobs or moment
     for i in range((num_frames)):
         frame_list.append((i,None,None))
@@ -44,9 +50,10 @@ def fifo(jobs,num_frames):
                 frame_list[target_frame]=((temp_num,temp_job,moment))
             
         for f in frame_list:
-            print(f[0],f[1],f[2],str(did_inter))
-        print()
-    print(inter/len(jobs))
+            return_list.append((f[0]+1,f[1],f[2],did_inter))
+        
+    #return the list of events and also the failure rate
+    return((return_list,round(inter/len(jobs),2)))
     
 #Perform the LRU
 def lru(jobs,num_frames):

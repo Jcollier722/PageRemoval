@@ -7,6 +7,8 @@ DEF_SIZE = str(MAX_WIDTH)+"x"+str(MAX_HEIGHT)
 MAIN_TITLE = 'Page Removal Policy Simulation Tool'
 ENTER_JOB  = 'Enter your jobs (seperate by comma): '
 
+RESULT_TITLE = 'Results'
+
 """BUTTON TEXT"""
 IMPORT_JOB = 'Import Jobs'
 SUBMIT_JOB = 'Submit Jobs'
