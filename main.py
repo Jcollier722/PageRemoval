@@ -41,7 +41,7 @@ class GUI(tk.Frame):
     def import_jobs(self):
         file = askopenfile(mode ='r', filetypes =[('Text Files', '*.txt')])
 
-    #callback to render a page frame box
+     #callback to render a page frame box
     def make_box(self):
         if(self.page_frame_count < 5):
             this_text = "Page Frame "+str(self.page_frame_count+1)
@@ -71,7 +71,8 @@ class GUI(tk.Frame):
             tk.messagebox.showerror('Error', 'Invalid input. Seperate jobs by comma.')
 
     def run_sim(self):
-        simulation.fifo(self.job_list,self.page_frame_count)
+        #simulation.fifo(self.job_list,self.page_frame_count)
+        simulation.lru(self.job_list,self.page_frame_count)
         
 
 if __name__ == "__main__":
