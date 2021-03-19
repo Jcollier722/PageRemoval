@@ -27,24 +27,28 @@ def make_results(self):
     menu.config(highlightbackground='black')
     menu.place(relx=0)
 
+    
     #Title
     title = tk.Label(menu,text=const.RESULT_TITLE,font='arial 30 bold ',bg=const.BLUE).place(relx=.5,rely=0.40,anchor="center")
-
+    fifo_view = tk.Button(menu,text=const.FIFO_TITLE,font='arial 12 bold',height=1,width=10,bg=const.GREEN,command=self.show_fifo).place(relx=0.3,rely=0.75,anchor="w")
+    lru_view = tk.Button(menu,text=const.LRU_TITLE,font='arial 12 bold',height=1,width=10,bg=const.GREEN,command=self.show_lru).place(relx=0.58,rely=0.75,anchor="w")
+    
     #fifo frame
-    fifo = tk.Canvas(root,width=815,height=const.MAX_HEIGHT/2,bg='red',bd=2)
+    self.fifo = tk.Canvas(root,width=815,height=const.MAX_HEIGHT/1,bg='red',bd=2)
+    fifo = self.fifo
     fifo.config(highlightbackground='black')
     fifo.place(relx=0,rely=.10)
 
     #fifo title
     title = tk.Label(fifo,text=const.FIFO_TITLE,font='arial 20 bold underline',bg=const.BLUE).place(relx=0.01,rely=0.10,anchor="w")
-
+    
     fifo_y = const.START_Y+.10
     #print each page frame
     for i in range(self.page_frame_count):
         this_text = "Page Frame "+str(i+1)
         this_label = tk.Label(fifo,text=this_text,font= "arial 15 bold",borderwidth=3,relief='groove',pady=7,padx=10)
         this_label.place(relx=0.01,rely=fifo_y)
-        fifo_y = fifo_y + (const.Y_INC-.02)
+        fifo_y = fifo_y + 0.07
 
     """
     Lots of magic numbers here, will move to const.py if time allows for this assignment.
@@ -61,13 +65,37 @@ def make_results(self):
                         e="-"
                     tk.Label(fifo,text=str(e),font= "arial 10 bold",borderwidth=3,relief='groove',pady=7,padx=10).place(relx=x_fifo_jobs,rely=y_fifo_jobs)
                     x_fifo_jobs = x_fifo_jobs + .07
-        y_fifo_jobs = y_fifo_jobs +0.15
+        y_fifo_jobs = y_fifo_jobs +0.07
         x_fifo_jobs = self.x+.17
+
+    #move jobs to right of labels
+    x_fifo_jobs = self.x+.17
+
+
+    y_fifo_jobs = y_fifo_jobs +0.05
     
-    #lru frame
-    lru = tk.Canvas(root,width=815,height=const.MAX_HEIGHT/2,bg='yellow',bd=2)
-    lru.config(highlightbackground='black')
-    lru.place(relx=0,rely=.50)
+    tk.Label(fifo,text=const.REQ,font= "arial 12 bold",borderwidth=3,relief='groove',pady=7,padx=10).place(relx=0.01,rely=y_fifo_jobs)
+    
+    for job in self.job_list:
+        tk.Label(fifo,text=str(job),font= "arial 10 bold",borderwidth=3,relief='groove',pady=7,padx=10).place(relx=x_fifo_jobs,rely=y_fifo_jobs)
+        x_fifo_jobs = x_fifo_jobs + .07
+        
+    x_fifo_jobs = self.x+.17
+    y_fifo_jobs=y_fifo_jobs +0.07
+    tk.Label(fifo,text=const.INTER,font= "arial 12 bold",borderwidth=3,relief='groove',pady=7,padx=40).place(relx=0.01,rely=y_fifo_jobs)
+
+    for inter in self.fifo_inter:
+        tk.Label(fifo,text=str(inter),font= "arial 13 bold",borderwidth=3,relief='groove',pady=7,padx=10).place(relx=x_fifo_jobs,rely=y_fifo_jobs)
+        x_fifo_jobs = x_fifo_jobs + .07
+
+    y_fifo_jobs=y_fifo_jobs +0.07
+    x_fifo_jobs = self.x+.17
+    tk.Label(fifo,text=const.TIME,font= "arial 12 bold",borderwidth=3,relief='groove',pady=7,padx=15).place(relx=0.01,rely=y_fifo_jobs)
+
+    for i in range(len(self.job_list)):
+        tk.Label(fifo,text=str(i+1),font= "arial 11 ",borderwidth=3,relief='groove',pady=7,padx=10).place(relx=x_fifo_jobs,rely=y_fifo_jobs)
+        x_fifo_jobs = x_fifo_jobs + .07
+        
 
 #Turn list into string and print nicely
 def pretty_list(the_list):
@@ -78,4 +106,5 @@ def pretty_list(the_list):
             item = "empty"
         return_string = return_string + (item + "  ")
     return return_string
+
     

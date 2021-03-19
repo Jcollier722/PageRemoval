@@ -78,16 +78,16 @@ class GUI(tk.Frame):
         
         #get the events of the fifo sim
         fifo_event = simulation.fifo(self.job_list,self.page_frame_count)
+
+        #get event list
         events = fifo_event[0]
 
+        #get inter list
+        self.fifo_inter = fifo_event[2]
+        
         #arrange the data into an easy to work with format
         self.fifo_events = pp.print_fifo(self.page_frame_count,events)
 
-        """
-        for event_list in self.fifo_events:
-            print(event_list.frame, event_list.event)
-        """
-        
         #simulation.lru(self.job_list,self.page_frame_count)
         self.new_window()
 
@@ -95,7 +95,12 @@ class GUI(tk.Frame):
     def new_window(self):
         sr.make_results(self)
 
-        
+    def show_fifo(self):
+        self.fifo.place(relx=0,rely=.10)
+
+    def show_lru(self):
+        self.fifo.place_forget()
+
         
 
 if __name__ == "__main__":

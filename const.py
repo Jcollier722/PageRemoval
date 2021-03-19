@@ -8,6 +8,10 @@ MAIN_TITLE = 'Page Removal Policy Simulation Tool'
 ENTER_JOB  = 'Enter your jobs (seperate by comma): '
 RESULT_TITLE = 'Results'
 FIFO_TITLE = 'FIFO'
+LRU_TITLE = 'LRU'
+REQ = 'Page Requested'
+INTER = 'Interrupt'
+TIME  = 'Time Snapshot'
 
 """BUTTON TEXT"""
 IMPORT_JOB = 'Import Jobs'

@@ -28,6 +28,8 @@ def fifo(jobs,num_frames):
     #init the interrupts and moment
     inter  = 0
     moment = 0
+
+    inter_list = []
     
     #iterate over each job in the list
     for job in jobs:
@@ -52,13 +54,18 @@ def fifo(jobs,num_frames):
                 temp_num = frame_list[target_frame][0]
                 temp_job = job
                 frame_list[target_frame]=((temp_num,temp_job,moment))
-            
+
+        if(did_inter):
+            inter_list.append("*")
+        else:
+            inter_list.append(" ")
+        
         for f in frame_list:
             return_list.append((moment,f[0]+1,f[1],did_inter))
 
         
     #return the list of events and also the failure rate
-    return((return_list,round(inter/len(jobs),2)))
+    return((return_list,round(inter/len(jobs),2),inter_list))
     
 #Perform the LRU
 def lru(jobs,num_frames):
