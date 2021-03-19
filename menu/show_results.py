@@ -13,32 +13,69 @@ import simulation
 from tkinter import ttk
 from tkinter.filedialog import askopenfile
 
-class NewWindow(tk.Toplevel):
+
+def make_results(self):
+    self.count = self.count + 1
+    self.window=tk.Toplevel(self)
+    self.window.geometry("825x900")
+    self.window.config(bg='#bfd7ff')
+    self.window.resizable(width=False, height=False)
     
-    def __init__(self, master = None):
-        super().__init__(master = master)  
-        self.geometry("750x750") 
-        self.title("Page Removal Simulator")
-        self.resizable(width=False, height=False)
+    root = self.window
+    
+    menu = tk.Canvas(root,width=815,height=const.MAX_HEIGHT/8,bg=const.BLUE,bd=2)
+    menu.config(highlightbackground='black')
+    menu.place(relx=0)
 
-        
-              
-        #alias self to root to make life easier
-        root = self
-        
-        menu = tk.Canvas(root,width=const.MAX_WIDTH+41,height=const.MAX_HEIGHT/8,bg=const.BLUE,bd=2)
-        menu.config(highlightbackground='black')
-        menu.place(relx=0)
+    #Title
+    title = tk.Label(menu,text=const.RESULT_TITLE,font='arial 30 bold ',bg=const.BLUE).place(relx=.5,rely=0.40,anchor="center")
 
-        #Title
-        title = tk.Label(menu,text=const.RESULT_TITLE,font='arial 30 bold ',bg=const.BLUE).place(relx=.5,rely=0.40,anchor="center")
+    #fifo frame
+    fifo = tk.Canvas(root,width=815,height=const.MAX_HEIGHT/2,bg='red',bd=2)
+    fifo.config(highlightbackground='black')
+    fifo.place(relx=0,rely=.10)
 
-        #fifo frame
-        fifo = tk.Canvas(root,width=const.MAX_WIDTH+41,height=const.MAX_HEIGHT/2.5,bg='red',bd=2)
-        fifo.config(highlightbackground='black')
-        fifo.place(relx=0,rely=.14)
+    #fifo title
+    title = tk.Label(fifo,text=const.FIFO_TITLE,font='arial 20 bold underline',bg=const.BLUE).place(relx=0.01,rely=0.10,anchor="w")
 
-        #lru frame
-        lru = tk.Canvas(root,width=const.MAX_WIDTH+41,height=const.MAX_HEIGHT/2.5,bg='yellow',bd=2)
-        lru.config(highlightbackground='black')
-        lru.place(relx=0,rely=.54)
+    fifo_y = const.START_Y+.10
+    #print each page frame
+    for i in range(self.page_frame_count):
+        this_text = "Page Frame "+str(i+1)
+        this_label = tk.Label(fifo,text=this_text,font= "arial 15 bold",borderwidth=3,relief='groove',pady=7,padx=10)
+        this_label.place(relx=0.01,rely=fifo_y)
+        fifo_y = fifo_y + (const.Y_INC-.02)
+
+    """
+    Lots of magic numbers here, will move to const.py if time allows for this assignment.
+    """
+    
+    #print the jobs each page frame has at each moment
+    y_fifo_jobs = const.START_Y+.10
+    x_fifo_jobs = self.x+.17
+    for i in range(self.page_frame_count):
+        for event_list in self.fifo_events:
+            if(str(event_list.frame) == str(i+1)):
+                for e in event_list.event:
+                    if e is None:
+                        e="-"
+                    tk.Label(fifo,text=str(e),font= "arial 10 bold",borderwidth=3,relief='groove',pady=7,padx=10).place(relx=x_fifo_jobs,rely=y_fifo_jobs)
+                    x_fifo_jobs = x_fifo_jobs + .07
+        y_fifo_jobs = y_fifo_jobs +0.15
+        x_fifo_jobs = self.x+.17
+    
+    #lru frame
+    lru = tk.Canvas(root,width=815,height=const.MAX_HEIGHT/2,bg='yellow',bd=2)
+    lru.config(highlightbackground='black')
+    lru.place(relx=0,rely=.50)
+
+#Turn list into string and print nicely
+def pretty_list(the_list):
+    return_string = ""
+
+    for item in the_list:
+        if item is None:
+            item = "empty"
+        return_string = return_string + (item + "  ")
+    return return_string
+    
