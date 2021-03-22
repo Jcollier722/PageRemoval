@@ -65,7 +65,7 @@ def fifo(jobs,num_frames):
 
         
     #return the list of events and also the failure rate
-    return((return_list,round(inter/len(jobs),2),inter_list))
+    return((return_list,round(inter/len(jobs),2),inter_list,inter))
     
 #Perform the LRU
 def lru(jobs,num_frames):
@@ -124,7 +124,7 @@ def lru(jobs,num_frames):
             return_list.append((moment,index,f.name,did_inter))
             index = index +1 
     #return the list of events and also the failure rate
-    return((return_list,round(inter/len(jobs),2),inter_list))
+    return((return_list,round(inter/len(jobs),2),inter_list,inter))
    
             
 

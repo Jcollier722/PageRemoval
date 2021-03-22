@@ -9,6 +9,7 @@ import import_jobs as ij
 import validate_jobs as validate
 import show_results as sr
 import export_results as xr
+import compare_sim 
 import const
 import simulation
 from tkinter import ttk
@@ -17,15 +18,15 @@ from tkinter.filedialog import asksaveasfile
 
 def make_results(self):
 
+    #if job list is too long, just export to spreadsheet and show comparison
     if(len(self.job_list)>11):
         tk.messagebox.showwarning('Warning','Your job list is large and will be exported to a spreadsheet instead. Please select a save location.')
         files = [('Spreadsheet','.xlsx')]
         path  = asksaveasfile(filetypes = files, defaultextension = files)  
         xr.export(path,self.fifo_events,self.fifo_inter,self.lru_events,self.lru_inter,self.job_list)
+        tk.messagebox.showinfo('Saved','Spreadsheet generated successfully')
+        compare_sim.compare(['FIFO','LRU'],[self.fifo_num_inter,self.lru_num_inter])
         return
-        
-
-
     
     self.count = self.count + 1
     self.window=tk.Toplevel(self)
@@ -37,14 +38,14 @@ def make_results(self):
     menu = tk.Canvas(root,width=815,height=const.MAX_HEIGHT/8,bg=const.BLUE,bd=2)
     menu.config(highlightbackground='black')
     menu.place(relx=0)
-        
-        
     
+
     #Title
     title = tk.Label(menu,text=const.RESULT_TITLE,font='arial 30 bold ',bg=const.BLUE).place(relx=.5,rely=0.40,anchor="center")
     fifo_view = tk.Button(menu,text=const.FIFO_TITLE,font='arial 12 bold',height=1,width=10,bg=const.GREEN,command=self.show_fifo).place(relx=0.3,rely=0.75,anchor="w")
     lru_view = tk.Button(menu,text=const.LRU_TITLE,font='arial 12 bold',height=1,width=10,bg=const.GREEN,command=self.show_lru).place(relx=0.58,rely=0.75,anchor="w")
 
+    compare = tk.Button(root,text="Compare Algorithms",font='arial 12 bold',height=3,width=30,bg=const.GREEN,command=self.compare_sim).place(relx=0.3,rely=0.95,anchor="w")
     
     #fifo frame
     self.fifo = tk.Canvas(root,width=815,height=const.MAX_HEIGHT/1,bg=const.BLUE,bd=2)

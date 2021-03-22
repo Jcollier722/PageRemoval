@@ -9,6 +9,7 @@ import import_jobs as ij
 import validate_jobs as validate
 import show_results as sr
 import pretty_print as pp
+import compare_sim
 import const
 import simulation
 from tkinter import ttk
@@ -75,27 +76,24 @@ class GUI(tk.Frame):
             tk.messagebox.showerror('Error', 'Invalid input. Seperate jobs by comma.')
 
     def run_sim(self):
-        """
-        1.Run the simulation
-        2.get the events of the sim
-        3.get event list
-        4.get inter list
-        5.arrange the data into an easy to work with format
-        """
-        
+
         """FIFO"""
         fifo_event = simulation.fifo(self.job_list,self.page_frame_count)
         events = fifo_event[0]
         self.fifo_inter = fifo_event[2]
+        self.fifo_num_inter = fifo_event[3]
         self.fifo_events = pp.print_fifo(self.page_frame_count,events)
-
+        
         """LRU"""
         lru_event=simulation.lru(self.job_list,self.page_frame_count)
         new_events = lru_event[0]
         self.lru_inter = lru_event[2]
+        self.lru_num_inter = lru_event[3]
         self.lru_events = pp.print_fifo(self.page_frame_count,new_events)
 
-        #render new window to show results
+
+        
+        #simulation.lru(self.job_list,self.page_frame_count)    
         self.new_window()
         
         
@@ -109,6 +107,9 @@ class GUI(tk.Frame):
     def show_lru(self):
         self.fifo.place_forget()
         self.lru.place(relx=0,rely=.10)
+
+    def compare_sim(self):
+        compare_sim.compare(['FIFO','LRU'],[self.fifo_num_inter,self.lru_num_inter])
         
 
 if __name__ == "__main__":
