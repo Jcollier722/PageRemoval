@@ -75,32 +75,40 @@ class GUI(tk.Frame):
             tk.messagebox.showerror('Error', 'Invalid input. Seperate jobs by comma.')
 
     def run_sim(self):
+        """
+        1.Run the simulation
+        2.get the events of the sim
+        3.get event list
+        4.get inter list
+        5.arrange the data into an easy to work with format
+        """
         
-        #get the events of the fifo sim
+        """FIFO"""
         fifo_event = simulation.fifo(self.job_list,self.page_frame_count)
-
-        #get event list
         events = fifo_event[0]
-
-        #get inter list
         self.fifo_inter = fifo_event[2]
-        
-        #arrange the data into an easy to work with format
         self.fifo_events = pp.print_fifo(self.page_frame_count,events)
 
-        #simulation.lru(self.job_list,self.page_frame_count)
+        """LRU"""
+        lru_event=simulation.lru(self.job_list,self.page_frame_count)
+        new_events = lru_event[0]
+        self.lru_inter = lru_event[2]
+        self.lru_events = pp.print_fifo(self.page_frame_count,new_events)
+
+        #render new window to show results
         self.new_window()
-
-
+        
+        
     def new_window(self):
         sr.make_results(self)
 
     def show_fifo(self):
+        self.lru.place_forget()
         self.fifo.place(relx=0,rely=.10)
 
     def show_lru(self):
         self.fifo.place_forget()
-
+        self.lru.place(relx=0,rely=.10)
         
 
 if __name__ == "__main__":

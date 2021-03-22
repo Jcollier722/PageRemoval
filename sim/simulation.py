@@ -75,13 +75,15 @@ def lru(jobs,num_frames):
         def __init__(self,name=None,time=0):
             self.name=name
             self.time=time
-
+            
     #init list of empty job objects
     frame_list = [__job()]*num_frames
-
+    return_list = []
+    
     #init time and interrupt count
     moment = 0
     inter  = 0
+    inter_list = []
     
     for job in jobs:
         #inc time
@@ -112,12 +114,18 @@ def lru(jobs,num_frames):
                 index = frame_list.index(min_time)
                 frame_list[index]=__job(job,moment)
                 
-             
+        if(did_inter):
+            inter_list.append("*")
+        else:
+            inter_list.append(" ")
+
+        index = 1
         for f in frame_list:
-            print(f.name,f.time)
-        print()
-    print(inter/len(jobs))      
-            
+            return_list.append((moment,index,f.name,did_inter))
+            index = index +1 
+    #return the list of events and also the failure rate
+    return((return_list,round(inter/len(jobs),2),inter_list))
+   
             
 
 #check if job is contained in any known job objects     
