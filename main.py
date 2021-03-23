@@ -11,7 +11,10 @@ import show_results as sr
 import pretty_print as pp
 import compare_sim
 import const
+import generate
 import simulation
+import string
+import random
 from tkinter import ttk
 from tkinter.filedialog import askopenfile
 
@@ -22,9 +25,9 @@ class GUI(tk.Frame):
 
         """Text variables for input"""
         self.job_entry = tk.StringVar()
-
+        
         self.job_list = None
-
+        self.is_valid=False
         self.count = 0
 
         #init frame count to 1
@@ -72,11 +75,17 @@ class GUI(tk.Frame):
         if(validate.validate_input(self,user_input)!=-1):
             self.job_list = None
             self.job_list = validate.validate_input(self,user_input)
+            tk.messagebox.showinfo('Success', 'Jobs are valid.')
+            self.is_valid=True
         else:
             tk.messagebox.showerror('Error', 'Invalid input. Seperate jobs by comma.')
 
     def run_sim(self):
 
+        if(not (self.is_valid)):
+            tk.messagebox.showerror('Error', 'Please enter valid jobs before submitting.')
+            return
+        
         """FIFO"""
         fifo_event = simulation.fifo(self.job_list,self.page_frame_count)
         events = fifo_event[0]
@@ -92,11 +101,10 @@ class GUI(tk.Frame):
         self.lru_events = pp.print_fifo(self.page_frame_count,new_events)
 
 
-        
         #simulation.lru(self.job_list,self.page_frame_count)    
         self.new_window()
         
-        
+     
     def new_window(self):
         sr.make_results(self)
 
@@ -110,8 +118,28 @@ class GUI(tk.Frame):
 
     def compare_sim(self):
         compare_sim.compare(['FIFO','LRU'],[self.fifo_num_inter,self.lru_num_inter])
-        
 
+    def generate_job(self):
+        generate.generate_jobs(self)
+        
+    def do_generation(self):
+        #get the range for the sim
+        gen_range = self.range_var.get()
+        gen_size = self.size_var.get()
+        left_bound = 0
+        right_bound = gen_range[gen_range.index('-')+1:]
+        right_bound = string.ascii_lowercase.index(right_bound.lower())
+        
+        file = open("my_simulation.txt","w+")
+
+        for i in range(int(gen_size)):
+            letter = random.randint(left_bound,right_bound)
+            file.write(const.ALPHA[letter])
+            file.write("\n")
+        file.close()
+        
+        tk.messagebox.showinfo('Success', 'Simulation generated')
+        
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Page Removal Simulator")

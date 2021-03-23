@@ -20,9 +20,10 @@ def make_top(self, root):
     job_entry = tk.Entry(menu,textvariable=self.job_entry,width=50).place(relx=0.48,rely=0.5,anchor="w")
     
     #buttons
-    import_button = tk.Button(menu,text=const.IMPORT_JOB,font='arial 12 bold',height=3,width=20,bg=const.GREEN,command=self.import_jobs).place(relx=0.17,rely=0.8,anchor="w")
-    submit_button = tk.Button(menu,text=const.SUBMIT_JOB,font='arial 12 bold',height=3,width=20,bg=const.GREEN,command=self.submit_jobs).place(relx=0.48,rely=0.8,anchor="w")
- 
+    import_button = tk.Button(menu,text=const.IMPORT_JOB,font='arial 12 bold',height=3,width=15,bg=const.GREEN,command=self.import_jobs).place(relx=0.17,rely=0.8,anchor="w")
+    generate_button = tk.Button(menu,text=const.GENERATE_JOB,font='arial 12 bold',height=3,width=15,bg=const.GREEN,command=self.generate_job).place(relx=0.41,rely=0.8,anchor="w")
+    submit_button = tk.Button(menu,text=const.SUBMIT_JOB,font='arial 12 bold',height=3,width=15,bg=const.GREEN,command=self.submit_jobs).place(relx=0.65,rely=0.8,anchor="w")
+    
 def make_mid(self, root):
     #top menu frame
     mid_menu = tk.Canvas(root,width=const.MAX_WIDTH-10,height=const.MAX_HEIGHT/2,bg=const.BLUE,bd=2)
