@@ -47,7 +47,7 @@ def make_results(self):
 
     compare = tk.Button(root,text="Compare Algorithms",font='arial 12 bold',height=3,width=30,bg=const.GREEN,command=self.compare_sim).place(relx=0.3,rely=0.95,anchor="w")
     
-    #fifo frame
+    #**********************************************************************************************************************************************fifo frame
     self.fifo = tk.Canvas(root,width=815,height=const.MAX_HEIGHT/1,bg=const.BLUE,bd=2)
     fifo = self.fifo
     fifo.config(highlightbackground='black')
@@ -108,9 +108,19 @@ def make_results(self):
     for i in range(len(self.job_list)):
         tk.Label(fifo,text=str(i+1),font= "arial 11 ",borderwidth=3,relief='groove',pady=7,padx=10).place(relx=x_fifo_jobs,rely=y_fifo_jobs)
         x_fifo_jobs = x_fifo_jobs + .07
+        
+    y_fifo_jobs=y_fifo_jobs +0.07
+    y_fifo_jobs=y_fifo_jobs +0.07
+    num_inter = str((self.fifo_num_inter))
+    num_req =   str(len(self.job_list))
+    fifo_fail = str(self.fifo_fail*100)+"%"
+    results = "Total Interrupts: "+num_inter+"\n"+"Total Requests: "+ num_req + "\n" + "Failure Rate: "+fifo_fail
+    tk.Label(fifo,text=results,font= "arial 15 bold ").place(relx=0.01,rely=y_fifo_jobs)
+    
+    
 
 
-    #lru frame
+    #**********************************************************************************************************************************************lru frame
     self.lru = tk.Canvas(root,width=815,height=const.MAX_HEIGHT/1,bg=const.BLUE,bd=2)
     lru = self.lru
     lru.config(highlightbackground='black')
@@ -172,5 +182,12 @@ def make_results(self):
         tk.Label(lru,text=str(i+1),font= "arial 11 ",borderwidth=3,relief='groove',pady=7,padx=10).place(relx=x_lru_jobs,rely=y_lru_jobs)
         x_lru_jobs = x_lru_jobs + .07
 
-
+    y_lru_jobs=y_lru_jobs +0.07
+    y_lru_jobs=y_lru_jobs +0.07
+    
+    num_inter = str((self.lru_num_inter))
+    num_req =   str(len(self.job_list))
+    lru_fail = str(self.lru_fail*100)+"%"
+    results = "Total Interrupts: "+num_inter+"\n"+"Total Requests: "+ num_req + "\n" + "Failure Rate: "+lru_fail
+    tk.Label(lru,text=results,font= "arial 15 bold ").place(relx=0.01,rely=y_lru_jobs)
     

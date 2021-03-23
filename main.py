@@ -93,6 +93,7 @@ class GUI(tk.Frame):
         """FIFO"""
         fifo_event = simulation.fifo(self.job_list,self.page_frame_count)
         events = fifo_event[0]
+        self.fifo_fail = fifo_event[1]
         self.fifo_inter = fifo_event[2]
         self.fifo_num_inter = fifo_event[3]
         self.fifo_events = pp.print_fifo(self.page_frame_count,events)
@@ -100,6 +101,7 @@ class GUI(tk.Frame):
         """LRU"""
         lru_event=simulation.lru(self.job_list,self.page_frame_count)
         new_events = lru_event[0]
+        self.lru_fail = lru_event[1]
         self.lru_inter = lru_event[2]
         self.lru_num_inter = lru_event[3]
         self.lru_events = pp.print_fifo(self.page_frame_count,new_events)
