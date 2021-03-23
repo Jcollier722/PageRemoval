@@ -22,7 +22,8 @@ def make_top(self, root):
     #buttons
     import_button = tk.Button(menu,text=const.IMPORT_JOB,font='arial 12 bold',height=3,width=15,bg=const.GREEN,command=self.import_jobs).place(relx=0.17,rely=0.8,anchor="w")
     generate_button = tk.Button(menu,text=const.GENERATE_JOB,font='arial 12 bold',height=3,width=15,bg=const.GREEN,command=self.generate_job).place(relx=0.41,rely=0.8,anchor="w")
-    submit_button = tk.Button(menu,text=const.SUBMIT_JOB,font='arial 12 bold',height=3,width=15,bg=const.GREEN,command=self.submit_jobs).place(relx=0.65,rely=0.8,anchor="w")
+    self.submit_button = tk.Button(menu,text=const.SUBMIT_JOB,font='arial 12 bold',height=3,width=15,bg=const.GREEN,command=self.submit_jobs)
+    self.submit_button.place(relx=0.65,rely=0.8,anchor="w")
     
 def make_mid(self, root):
     #top menu frame

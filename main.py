@@ -48,7 +48,11 @@ class GUI(tk.Frame):
     #callback to import jobs from a text file
     def import_jobs(self):
         file = askopenfile(mode ='r', filetypes =[('Text Files', '*.txt')])
-
+        self.job_list=(ij.import_j(file.name))
+        self.is_valid=True
+        self.job_entry.set("Jobs Imported")
+        self.submit_button['state']='disabled'
+        
      #callback to render a page frame box
     def make_box(self):
         if(self.page_frame_count < 5):
@@ -81,7 +85,7 @@ class GUI(tk.Frame):
             tk.messagebox.showerror('Error', 'Invalid input. Seperate jobs by comma.')
 
     def run_sim(self):
-
+        
         if(not (self.is_valid)):
             tk.messagebox.showerror('Error', 'Please enter valid jobs before submitting.')
             return
@@ -100,7 +104,8 @@ class GUI(tk.Frame):
         self.lru_num_inter = lru_event[3]
         self.lru_events = pp.print_fifo(self.page_frame_count,new_events)
 
-
+        self.submit_button['state']='normal'
+        
         #simulation.lru(self.job_list,self.page_frame_count)    
         self.new_window()
         
@@ -139,6 +144,7 @@ class GUI(tk.Frame):
         file.close()
         
         tk.messagebox.showinfo('Success', 'Simulation generated')
+        self.window.destroy()
         
 if __name__ == "__main__":
     root = tk.Tk()
