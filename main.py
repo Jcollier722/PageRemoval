@@ -17,6 +17,7 @@ import string
 import random
 from tkinter import ttk
 from tkinter.filedialog import askopenfile
+from PIL import ImageTk, Image  
 
 
 class GUI(tk.Frame):
@@ -30,6 +31,12 @@ class GUI(tk.Frame):
         self.is_valid=False
         self.count = 0
 
+        self.hard_drive = Image.open("hdd.png")
+        self.hard_drive =self.hard_drive.resize((125,125))
+        self.hard_drive_image = ImageTk.PhotoImage(self.hard_drive)
+        self.image_x = 0.35
+        self.image_y = 0.36
+        self.page_frame_image = []
         #init frame count to 1
         self.page_frame_count = 0
 
@@ -56,12 +63,29 @@ class GUI(tk.Frame):
      #callback to render a page frame box
     def make_box(self):
         if(self.page_frame_count < 5):
+            #draw the labels for each label
             this_text = "Page Frame "+str(self.page_frame_count+1)
             this_label = tk.Label(self.page_frame_grid,text=this_text,font= "arial 15 bold",borderwidth=3,relief='groove',pady=7,padx=10)
             this_label.place(relx=self.x,rely=self.y)
             self.page_frame_labels.append(this_label)
             self.page_frame_count = self.page_frame_count+1
             self.y = self.y +const.Y_INC
+
+            #render an image
+            #If 5th frame, move to bottom rom center
+            if(len(self.page_frame_labels)==5):
+                this_image_label = tk.Label(image=self.hard_drive_image,bg=const.BLUE)
+                this_image_label.place(relx=0.57,rely=0.54)
+                self.page_frame_image.append(this_image_label)
+                return
+                
+            
+            this_image_label = tk.Label(image=self.hard_drive_image,bg=const.BLUE)
+            this_image_label.place(relx=self.image_x,rely=self.image_y)
+            self.page_frame_image.append(this_image_label)
+            self.image_x = self.image_x +0.15
+            
+            
     
     #callback to de-redner a page frame
     def remove_box(self):
@@ -70,6 +94,20 @@ class GUI(tk.Frame):
             this_label.place_forget()
             self.page_frame_count = self.page_frame_count -1
             self.y = self.y -const.Y_INC
+
+            #remove images
+            if(len(self.page_frame_image) > 2):
+                #just delete image on 2nd row, dont worry about decrements
+                if(self.page_frame_image.index(self.page_frame_image[-1])==4):
+                    this_image = self.page_frame_image.pop()
+                    this_image.place_forget()
+                    return
+                
+                #otherwise if it is one of the other 4, dec x
+                this_image = self.page_frame_image.pop()
+                this_image.place_forget()
+                self.image_x = self.image_x - 0.15
+                
 
     #callback to submit jobs; this validates user input
     def submit_jobs(self):
@@ -153,5 +191,6 @@ if __name__ == "__main__":
     root.title("Page Removal Simulator")
     root.resizable(width=False, height=False)
     root.geometry(const.DEF_SIZE)
+    root.config(bg=const.BLUE)
     my_gui = GUI(root)
     root.mainloop()
